@@ -1,0 +1,15 @@
+language: python
+python:
+  - "3.4"
+  - "3.5"
+  - "3.6"
+  - "3.7"
+# command to install dependencies
+install:
+  - pip install -r requirements.dev.txt
+# command to run tests
+script:
+  - python manage.py test
+  - coverage run --source app  manage.py test
+  - coverage report
+  - codecov
