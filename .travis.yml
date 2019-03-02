@@ -1,0 +1,15 @@
+language: python
+python:
+  - "3.4"
+  - "3.5"
+  - "3.6"
+  - "3.7-dev"
+# command to install dependencies
+install:
+  - pip install -r requirements.dev.txt
+# command to run tests
+script:
+  - python setup.py test -s tests.unit
+  - coverage run --source pyleo setup.py test -s tests.unit
+  - coverage report
+  - codecov
