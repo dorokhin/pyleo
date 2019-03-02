@@ -9,7 +9,7 @@ install:
   - pip install -r requirements.dev.txt
 # command to run tests
 script:
-  - python manage.py test
-  - coverage run --source app  manage.py test
+  - python setup.py test -s tests.unit
+  - coverage run --source pyleo setup.py test -s tests.unit
   - coverage report
   - codecov
