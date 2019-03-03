@@ -12,7 +12,7 @@ class TestApi(unittest.TestCase):
 
     def test_construct_url(self):
         word = parse.quote_plus('Touch me')
-        query_string = 'getTranslations?word_value='
+        query_string = 'userdict3/getTranslations?word_value='
 
         expected = 'https://lingualeo.com/userdict3/getTranslations?word_value=Touch+me'
         result = self._test_instance.construct_url(query_string, word)
@@ -20,7 +20,7 @@ class TestApi(unittest.TestCase):
 
     def test_construct_url_with_none_word(self):
         word = None
-        query_string = 'getTranslations'
+        query_string = 'userdict3/getTranslations'
 
         expected = 'https://lingualeo.com/userdict3/getTranslations'
         result = self._test_instance.construct_url(query_string, word)
