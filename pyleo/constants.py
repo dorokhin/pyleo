@@ -2,4 +2,4 @@
 The PyLeo library Constants
 """
 
-PYLEO_VERSION = '0.0.2'
+PYLEO_VERSION = '0.0.3'

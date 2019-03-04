@@ -1,5 +1,10 @@
 from setuptools import setup
 from pyleo import constants
+from os import path
+
+this_directory = path.abspath(path.dirname(__file__))
+with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
+    long_desc_readme = f.read(),
 
 setup(
     name='pyleo',
@@ -11,7 +16,7 @@ setup(
     packages=['pyleo',
               'pyleo.abstractions'
               ],
-    long_description="""PyLeo ...""",
+    long_description=long_desc_readme,
     include_package_data=True,
     install_requires=[],
     python_requires='>=3.4',
