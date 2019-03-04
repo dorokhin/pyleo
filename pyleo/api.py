@@ -1,4 +1,5 @@
 from pyleo.abstractions import leoapi
+from pyleo.exceptions.arg_error import LocaleError
 from pyleo.utils import create_node
 from http.cookiejar import MozillaCookieJar
 from http.cookiejar import LoadError
@@ -9,9 +10,18 @@ from urllib import parse
 class LeoApi(leoapi.LA):
     base_url = 'https://lingualeo.com/'
 
-    def __init__(self, email, password):
+    def __init__(self, email, password, locale='ru'):
+        """
+        :param email:
+        :param password:
+        :param locale: (Portuguese: pt | Russian: ru | Turkish: tr | Spanish: es | Spanish Latin America: es_LA)
+        """
         self.email = email
         self.password = password
+        if locale in ['pt', 'ru', 'tr', 'es', 'es_LA']:
+            self.locale = locale
+        else:
+            raise LocaleError
         self.cj = MozillaCookieJar()
         self.cookie_file_name = create_node()
         self.need_auth = 1
