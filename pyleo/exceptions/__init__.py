@@ -1,0 +1,4 @@
+class PyLeoError(Exception):
+    pass
+
+
