@@ -1,7 +1,7 @@
 import os
 
 
-def create_node(_path='.pyleo', _file_name='cookies.txt'):
+def create_node(_file_name='cookies.txt', _path='.pyleo'):
     _file_path = os.path.join(os.path.expanduser("~"), _path)
 
     if not os.path.exists(os.path.join(_file_path, _file_name)):

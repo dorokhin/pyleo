@@ -5,6 +5,7 @@ from http.cookiejar import MozillaCookieJar
 from http.cookiejar import LoadError
 from urllib import request, error
 from urllib import parse
+import logging
 
 
 class LeoApi(leoapi.LA):
@@ -16,6 +17,15 @@ class LeoApi(leoapi.LA):
         :param password:
         :param locale: (Portuguese: pt | Russian: ru | Turkish: tr | Spanish: es | Spanish Latin America: es_LA)
         """
+        self.logger = logging.getLogger('leoapi')
+        self.logger.setLevel(logging.DEBUG)
+        fh = logging.FileHandler(create_node('pyleo.log'))
+        fh.setLevel(logging.DEBUG)
+        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        fh.setFormatter(formatter)
+        self.logger.addHandler(fh)
+        self.logger.debug('Creating an instance of LeoApi class')
+
         self.email = email
         self.password = password
         if locale in ['pt', 'ru', 'tr', 'es', 'es_LA']:
@@ -28,6 +38,7 @@ class LeoApi(leoapi.LA):
         try:
             self.cj.load(self.cookie_file_name)
             self.need_auth = 0
+            self.logger.debug('Auth: no auth needed')
         except LoadError as e:
             pass
         self.headers = {
@@ -53,7 +64,7 @@ class LeoApi(leoapi.LA):
             'type': 'login',
             'source': 'landing',
         }
-
+        self.logger.debug('Auth user: {0}'.format(self.email))
         return self.get_data(process_url, values, referer)
 
     def add_word(self, word, word_translation):
@@ -64,7 +75,7 @@ class LeoApi(leoapi.LA):
         query_string = 'userdict3/getTranslations?word_value='
         process_url = LeoApi.construct_url(query_string, word_to_translate)
         referer = 'https://lingualeo.com/ru/glossary/learn/dictionary'
-
+        self.logger.debug('Get translation: {0}'.format(word))
         return self.get_data(process_url, referer=referer)
 
     def get_data(self, url, values=None, referer=None, proxy=None, retry_count=3):
@@ -76,6 +87,7 @@ class LeoApi(leoapi.LA):
             data = None
 
         try:
+            self.logger.debug('Request URL: {0}'.format(url))
             req = request.Request(url, headers=self.headers, data=data)
             if referer:
                 req.add_header('Referer', referer)
@@ -88,9 +100,10 @@ class LeoApi(leoapi.LA):
             content = opener.open(req).read()
             self.cj.save(self.cookie_file_name, ignore_discard=True, ignore_expires=True)
         except error.URLError as e:
-            print('error:', e.reason)
+            self.logger.debug('Error: {0}'.format(e))
             content = None
             if retry_count > 0:
                 if hasattr(e, 'code') and 500 <= e.code < 600:
                     return self.get_data(url, data, referer, proxy, retry_count-1,)
+        self.logger.debug('Request URL success: {0}'.format(url))
         return content
