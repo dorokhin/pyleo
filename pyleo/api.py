@@ -81,7 +81,20 @@ class LeoApi(leoapi.LA):
             '_': int(time.time() * 1000),
 
         }
-        query_string = parse.urlencode(payload, quote_via=parse.quote_plus)
+
+        try:
+            query_string = parse.urlencode(payload, quote_via=parse.quote_plus)
+        except TypeError:
+            """
+            Python 3.4.9 
+            https://docs.python.org/3.4/library/urllib.parse.html#urllib.parse.urlencode
+            In this version quote_via keyword argument is absent.
+            
+            The resulting string is a series of key=value pairs separated by '&' characters, 
+            where both key and value are quoted using quote_plus() above.
+            """
+            query_string = parse.urlencode(payload)
+
         url_string = 'userdict3/getWord?'
         process_url = LeoApi.construct_url(url_string, query_string)
         referer = 'https://lingualeo.com/{locale}/glossary/learn/dictionary'.format(locale=self.locale)
