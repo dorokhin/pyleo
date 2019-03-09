@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/dorokhin/pyleo.svg?branch=master)](https://travis-ci.org/dorokhin/pyleo)
+[![PyPI version](https://badge.fury.io/py/pyleo.svg)](https://badge.fury.io/py/pyleo)
 
 # PyLeo  Lingualeo API python library
 
