@@ -12,7 +12,7 @@ class LA(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def add_word(self, word, word_translation):
+    def add_word(self, user_word_value, translate_value):
         raise NotImplementedError
 
     @abstractmethod
