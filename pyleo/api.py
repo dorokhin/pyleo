@@ -6,6 +6,8 @@ from http.cookiejar import LoadError
 from urllib import request, error
 from urllib import parse
 import logging
+import time
+import json
 
 
 class LeoApi(leoapi.LA):
@@ -67,8 +69,61 @@ class LeoApi(leoapi.LA):
         self.logger.debug('Auth user: {0}'.format(self.email))
         return self.get_data(process_url, values, referer)
 
-    def add_word(self, word, word_translation):
-        pass
+    def get_word_(self, word_value):
+        """
+        Method: GET
+        :param word_value:
+        :return:
+        """
+        payload = {
+            'word_value': word_value,
+            'groupId': 'dictionary',
+            '_': int(time.time() * 1000),
+
+        }
+
+        try:
+            query_string = parse.urlencode(payload, quote_via=parse.quote_plus)
+        except TypeError:
+            """
+            Python 3.4.9 
+            https://docs.python.org/3.4/library/urllib.parse.html#urllib.parse.urlencode
+            In this version quote_via keyword argument is absent.
+            
+            The resulting string is a series of key=value pairs separated by '&' characters, 
+            where both key and value are quoted using quote_plus() above.
+            """
+            query_string = parse.urlencode(payload)
+
+        url_string = 'userdict3/getWord?'
+        process_url = LeoApi.construct_url(url_string, query_string)
+        referer = 'https://lingualeo.com/{locale}/glossary/learn/dictionary'.format(locale=self.locale)
+        self.logger.debug('Get word from LinguaLeo: {0}'.format(word_value))
+        return self.get_data(process_url, referer=referer)
+
+    def add_word(self, user_word_value, translate_value):
+        """
+        Method: POST
+        :param user_word_value:
+        :param translate_value:
+        :return:
+        """
+        word_id = json.loads(self.get_word_(user_word_value).decode('utf-8'))['userdict3']['word_id']
+        values = {
+            'word_id': word_id,
+            'speech_part_id': '0',
+            'groupId': 'dictionary',
+            'translate_id': '',
+            'translate_value': translate_value,
+            'user_word_value': user_word_value,
+            'from_syntrans_id': '',
+            'to_syntrans_id': '',
+        }
+        url_string = 'userdict3/addWord'
+        process_url = LeoApi.construct_url(url_string, '')
+        referer = 'https://lingualeo.com/{locale}/glossary/learn/dictionary'.format(locale=self.locale)
+        self.logger.debug('Add word to user dictionary: {0}'.format(user_word_value))
+        return self.get_data(process_url, values, referer)
 
     def get_translations(self, word):
         word_to_translate = parse.quote_plus(word)

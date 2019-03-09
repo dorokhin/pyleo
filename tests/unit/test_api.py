@@ -1,4 +1,5 @@
 from pyleo.exceptions.arg_error import LocaleError
+from unittest.mock import patch
 from pyleo.api import LeoApi
 from urllib import parse
 import unittest
@@ -30,3 +31,18 @@ class TestApi(unittest.TestCase):
     def test_create_instance_with_wrong_locale(self):
         with self.assertRaises(LocaleError) as e:
             LeoApi(TestApi.fake_email, TestApi.fake_password, 'ro')
+
+    @patch('pyleo.api.LeoApi.get_data')
+    def test_get_word_(self, mock_get_data):
+        word = 'placebo'
+        data_dict = {
+            'error_msg': '',
+            'userdict3': {
+                'word_id': 30849,
+                'word_value': word
+            }
+        }
+        mock_get_data.return_value = json.dumps(data_dict).encode()
+        expected = 30849
+        result = json.loads(self._test_instance.get_word_(word).decode('utf-8'))['userdict3']['word_id']
+        self.assertEqual(expected, result)
