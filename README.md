@@ -21,6 +21,10 @@ api_instance = LeoApi('your@ema.il', 'password')
 if api_instance.need_auth:
     api_instance.auth()  # Authorize user
 
+# add word to LinguaLeo user dictionary
+api_instance.add_word('placebo', 'Имитация лекарства')
+
+# get word translation from LinguaLeo
 translation = json.loads(api_instance.get_translations('fake').decode('utf-8'))
 
 print(json.dumps(translation, indent=4, sort_keys=True, ensure_ascii=False))
