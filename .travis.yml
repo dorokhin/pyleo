@@ -13,3 +13,12 @@ script:
   - coverage run --source pyleo setup.py test -s tests.unit
   - coverage report
   - codecov
+deploy:
+  provider: pypi
+  user: Dorokhin
+  password:
+    secure: dOfiHudA1nUexjL1S2CS2G9h56IY7O6LaaBWHh+VhOM+09Ho3b2lzSx7c5i2tuHXLxnuCmE7oHbsp9x0jAoroDGbhtyfCeOJI8XJao+wWw6jRx+muWTPzLSHR912nZJ/fpKBgKPW01CjJTSOQl9AZK77m+PW4oX5VCnSN2IsQpCIxd05+VjMwuXWNR169amPPrTsA/kxARvQ0kCCNUnw028nczrYyI5gc+EIh0fCBXY159die42kfe+JcIA3VcN56lgqRTNsc5yDUWFWAWSfPTpsRG60bAS9GnlrfRk30uZsB4XA6WrMtjZyK4tkgTRnq6WAaI5+HDx0Qw/b8pTQ74E4f6wJ560doI9ydDp+j7A/ss88yBJK8xpceIkQ6fxJI9YgSlQX3VYjcDSQn1VYXSFl5JXElEQvqHv1opvUj0bVx80dXQKXVuECEQOgZpE5t/qgxWA8u5HF7CI0mUs6GAF1oMxqhsZu5iQkguEvrFIazGc4ik9AJDbYrG2F2j88fmZ5xFkPXaw6KyNrX6jZpbdt4HHngXjQcTwShq3MPBmt+/JNadG+WEEqeOc0I/Udoqr1qbyUP7DLwuw/ckrguvZN+m3MddkkA3iNm6eVOJ3H8EA0vcOgG6+pOFUsokFbhXu2Je3Fixt5VxcrFrWMnr4OZh0N1wpYeamIDkqJeG8=
+  skip_existing: true
+  distributions: "sdist bdist_wheel"
+  on:
+    tags: true
