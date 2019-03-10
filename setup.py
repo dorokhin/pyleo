@@ -34,7 +34,7 @@ setup(
         "Operating System :: OS Independent",
         "Development Status :: 1 - Planning",
         "Intended Audience :: Developers",
-        "Intended Audience :: Education"
+        "Intended Audience :: Education",
         "Topic :: Software Development :: Libraries"],
     package_data={
         '': ['*.md', '*.txt', '*.json']
