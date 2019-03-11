@@ -17,6 +17,7 @@ setup(
         'pyleo',
         'pyleo.abstractions',
         'pyleo.exceptions',
+        'pyleo.cli',
     ],
     long_description=long_description,
     long_description_content_type='text/markdown',
