@@ -42,4 +42,7 @@ setup(
     },
     keywords='pyleo api client lingualeo english-learning',
     license='MIT',
+    entry_points={
+        'console_scripts': ['pyleo=pyleo.cli.command_line:main'],
+    },
 )
