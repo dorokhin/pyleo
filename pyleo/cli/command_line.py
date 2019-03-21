@@ -2,6 +2,7 @@ import argparse
 import time
 import sys
 from pyleo.cli.utils import progress
+from pyleo.utils import get_or_create_node
 
 
 def main():
