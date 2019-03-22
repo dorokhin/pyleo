@@ -2,7 +2,7 @@ import argparse
 import time
 import sys
 from pyleo.cli.utils import progress
-from pyleo.utils import get_or_create_node
+from pyleo.utils import get_or_create_node, TokenBucket
 
 
 def main():
@@ -18,14 +18,20 @@ def main():
     file_name = args.file
     if args.command:
         if args.command == 'upload':
+            bucket = TokenBucket(5, 1)
             print("Action: UPLOAD \nFile: {0} ".format(file_name))
-
-            total = 150
+            total = 10
             i = 0
             while i < total + 1:
-                progress(i, total, status='Uploading')
-                time.sleep(0.01)
-                i += 1
+                while True:
+                    bucket.get_tokens()
+                    if bucket.consume(2):
+                        time.sleep(0.1)
+                        progress(i, total, status='Uploading')
+                        i += 1
+                        continue
+                    break
+
             print('\nDone')
         elif args.command == 'test':
             sys.stdout.write('test')
