@@ -22,7 +22,11 @@ class TokenBucket(object):
         self.timestamp = time()
 
     def consume(self, tokens):
-        if tokens <= self._tokens:
+        if tokens > self._tokens:
+            deficit = tokens - self._tokens
+            delay = deficit / self.fill_rate
+            time.sleep(delay)
+        else:
             self._tokens -= tokens
             return True
 

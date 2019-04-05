@@ -26,7 +26,6 @@ def main():
                 while True:
                     bucket.get_tokens()
                     if bucket.consume(2):
-                        time.sleep(0.1)
                         progress(i, total, status='Uploading')
                         i += 1
                         continue
