@@ -1,6 +1,6 @@
 from pyleo.abstractions import leoapi
 from pyleo.exceptions.arg_error import LocaleError
-from pyleo.utils import create_node
+from pyleo.utils import get_or_create_node
 from http.cookiejar import MozillaCookieJar
 from http.cookiejar import LoadError
 from urllib import request, error
@@ -21,7 +21,7 @@ class LeoApi(leoapi.LA):
         """
         self.logger = logging.getLogger('leoapi')
         self.logger.setLevel(logging.DEBUG)
-        fh = logging.FileHandler(create_node('pyleo.log'))
+        fh = logging.FileHandler(get_or_create_node('pyleo.log'))
         fh.setLevel(logging.DEBUG)
         formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
         fh.setFormatter(formatter)
@@ -35,7 +35,7 @@ class LeoApi(leoapi.LA):
         else:
             raise LocaleError
         self.cj = MozillaCookieJar()
-        self.cookie_file_name = create_node()
+        self.cookie_file_name = get_or_create_node()
         self.need_auth = 1
         try:
             self.cj.load(self.cookie_file_name)

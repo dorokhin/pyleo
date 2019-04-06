@@ -17,6 +17,7 @@ setup(
         'pyleo',
         'pyleo.abstractions',
         'pyleo.exceptions',
+        'pyleo.cli',
     ],
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -41,4 +42,7 @@ setup(
     },
     keywords='pyleo api client lingualeo english-learning',
     license='MIT',
+    entry_points={
+        'console_scripts': ['pyleo=pyleo.cli.command_line:main'],
+    },
 )
