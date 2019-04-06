@@ -12,6 +12,18 @@ pip install pyleo
 
 ## Example usage
 
+### CLI tool for upload dictionary (ororo.tv_dict*.csv) from Ororo.tv to LinguaLeo
+```bash
+
+pyleo upload -f ororo.tv_dict.csv -u your@email.mail -p Your_password
+```
+Where:
+- `-f` - Ororo.tv  dictionary filename
+- `-u` - LinguaLeo username
+- `-p` - LinguaLeo password 
+ 
+
+### Import as Python module
 ```python
 import json
 from pyleo.api import LeoApi

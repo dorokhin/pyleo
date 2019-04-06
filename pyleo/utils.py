@@ -1,5 +1,5 @@
 import os
-from time import time
+from time import time, sleep
 
 
 def get_or_create_node(_file_name='cookies.txt', _path='.pyleo'):
@@ -22,10 +22,11 @@ class TokenBucket(object):
         self.timestamp = time()
 
     def consume(self, tokens):
-        if tokens > self._tokens:
+        if tokens > self.tokens:
             deficit = tokens - self._tokens
             delay = deficit / self.fill_rate
-            time.sleep(delay)
+            sleep(delay)
+
         else:
             self._tokens -= tokens
             return True
